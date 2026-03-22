@@ -12,9 +12,9 @@ const SellActionWindow = ({ uid, closeSellWindow }) => {
   useEffect(() => {
     const checkHoldings = async () => {
       try {
-        // const API_URL = import.meta.env.DASH_API_URL;
-
-        const res = await axios.get("http://localhost:3002/allHoldings");
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/allHoldings`,
+        );
         const holdings = res.data;
 
         const currentStock = holdings.find((item) => item.name === uid);
@@ -48,9 +48,8 @@ const SellActionWindow = ({ uid, closeSellWindow }) => {
       return;
     }
 
-    // const API_URL = import.meta.env.VITE_DASH_API_URL;
     axios
-      .post("http://localhost:3002/newOrder", {
+      .post(`${import.meta.env.VITE_BACKEND_URL}/newOrder`, {
         name: uid,
         qty: stockQuantity,
         price: stockPrice,

@@ -15,7 +15,7 @@ const BuyActionWindow = ({ uid, closeBuyWindow }) => {
 
   const handleBuyClick = () => {
     axios
-      .post("http://localhost:3002/newOrder", {
+      .post(`${import.meta.env.VITE_BACKEND_URL}/newOrder`, {
         name: uid,
         qty: stockQuantity,
         price: stockPrice,

@@ -10,7 +10,7 @@ const Home = () => {
     const verifyUser = async () => {
       try {
         const { data } = await axios.post(
-          "http://localhost:3002",
+          `${import.meta.env.VITE_BACKEND_URL}`,
           {},
           { withCredentials: true },
         );
@@ -21,11 +21,11 @@ const Home = () => {
 
           setIsAuthorized(true);
         } else {
-          window.location.href = "http://localhost:3002/login";
+          window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login`;
         }
       } catch (error) {
         console.log(error);
-        window.location.href = "http://localhost:3002/login";
+        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login`;
       }
     };
 

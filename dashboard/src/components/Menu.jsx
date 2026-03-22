@@ -13,7 +13,7 @@ const Menu = () => {
   const handleLogout = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("email");
-    window.location.href = "http://localhost:3000";
+    window.location.href = import.meta.env.VITE_FRONTEND_URL;
   };
 
   const toggleDropdown = () => {

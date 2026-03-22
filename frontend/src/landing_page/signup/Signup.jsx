@@ -34,9 +34,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const API_URL = import.meta.env.VITE_FONT_API_URL;
       const { data } = await axios.post(
-        "http://localhost:3002/signup",
+        `${import.meta.env.VITE_BACKEND_URL}/signup`,
         {
           ...inputValue,
         },
@@ -47,7 +46,7 @@ const Signup = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "http://localhost:3001/";
+          window.location.href = import.meta.env.VITE_DASHBOARD_URL;
         }, 1000);
       } else {
         handleError(message);
