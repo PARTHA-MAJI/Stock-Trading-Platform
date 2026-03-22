@@ -21,7 +21,12 @@ const app = express();
 // CORS
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://stock-trading-platform-drab.vercel.app",
+      "https://stock-trading-platform-267z.vercel.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
