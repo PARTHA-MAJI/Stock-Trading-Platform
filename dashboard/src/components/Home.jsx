@@ -21,11 +21,11 @@ const Home = () => {
 
           setIsAuthorized(true);
         } else {
-          window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login`;
+          window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
         }
       } catch (error) {
         console.log(error);
-        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login`;
+        window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
       }
     };
 

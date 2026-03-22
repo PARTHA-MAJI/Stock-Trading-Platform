@@ -24,8 +24,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://stock-trading-platform-drab.vercel.app",
-      "https://stock-trading-platform-267z.vercel.app",
+      process.env.FRONTEND_URL,
+      process.env.DASHBOARD_URL,
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
@@ -44,11 +44,9 @@ app.post("/signup", async (req, res) => {
       return res.json({ message: "User already exists" });
     }
     const user = await User.create({ email, password, username });
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET || "secret_key",
-      { expiresIn: "3d" },
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "3d",
+    });
     res.cookie("token", token, { withCredentials: true, httpOnly: false });
     res.status(201).json({ message: "Signed in successfully", success: true });
   } catch (error) {
@@ -68,12 +66,15 @@ app.post("/login", async (req, res) => {
     if (!auth) {
       return res.json({ message: "Incorrect email or password" });
     }
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET || "secret_key",
-      { expiresIn: "3d" },
-    );
-    res.cookie("token", token, { withCredentials: true, httpOnly: false });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "3d",
+    });
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+    });
     res.status(201).json({ message: "User logged in", success: true });
   } catch (error) {
     console.error(error);
@@ -100,24 +101,20 @@ app.post("/", (req, res) => {
   if (!token) {
     return res.json({ status: false });
   }
-  jwt.verify(
-    token,
-    process.env.JWT_SECRET || "secret_key",
-    async (err, data) => {
-      if (err) {
-        return res.json({ status: false });
-      } else {
-        const user = await User.findById(data.id);
-        if (user)
-          return res.json({
-            status: true,
-            user: user.username,
-            email: user.email,
-          });
-        else return res.json({ status: false });
-      }
-    },
-  );
+  jwt.verify(token, process.env.JWT_SECRET, async (err, data) => {
+    if (err) {
+      return res.json({ status: false });
+    } else {
+      const user = await User.findById(data.id);
+      if (user)
+        return res.json({
+          status: true,
+          user: user.username,
+          email: user.email,
+        });
+      else return res.json({ status: false });
+    }
+  });
 });
 
 // DATA ROUTES

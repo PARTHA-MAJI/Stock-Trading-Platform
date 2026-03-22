@@ -53,63 +53,67 @@ const Signup = () => {
       }
     } catch (error) {
       console.log(error);
+      handleError("Server connection failed");
     }
   };
 
   return (
-    <div className="signup-container">
-      <div className="signup-form">
-        <h2>Sign up</h2>
-        <p className="form-subtitle">
-          Create a new account to start investing.
-        </p>
+    <>
+      <div className="signup-container">
+        <div className="signup-form">
+          <h2>Sign up</h2>
+          <p className="form-subtitle">
+            Create a new account to start investing.
+          </p>
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              placeholder="Your email"
-              onChange={handleOnChange}
-              required
-            />
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                placeholder="Your email"
+                onChange={handleOnChange}
+                required
+              />
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={username}
-              placeholder="Choose a username"
-              onChange={handleOnChange}
-              required
-            />
-          </div>
+            <div className="input-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                name="username"
+                value={username}
+                placeholder="Choose a username"
+                onChange={handleOnChange}
+                required
+              />
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              placeholder="Create a password"
-              onChange={handleOnChange}
-              required
-            />
-          </div>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={password}
+                placeholder="Create a password"
+                onChange={handleOnChange}
+                required
+              />
+            </div>
 
-          <button type="submit">Sign Up</button>
+            <button type="submit">Sign Up</button>
 
-          <div className="auth-link">
-            Already have an account? <Link to="/login">Login</Link>
-          </div>
-        </form>
-        <ToastContainer closeButton={false} />
+            <div className="auth-link">
+              Already have an account? <Link to="/login">Login</Link>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+
+      <ToastContainer closeButton={false} />
+    </>
   );
 };
 
