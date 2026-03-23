@@ -56,48 +56,50 @@ const Holdings = () => {
       <h3 className="title">Holdings ({allHoldings.length})</h3>
 
       <div className="order-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Instrument</th>
-              <th>Qty.</th>
-              <th>Avg. cost</th>
-              <th>LTP</th>
-              <th>Cur. val</th>
-              <th>P&L</th>
-              <th>Net chg.</th>
-              <th>Day chg.</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allHoldings.map((stock, index) => {
-              const safeAvg = stock.avg || stock.price || 0;
-              const safePrice = stock.price || 0;
-              const safeQty = stock.qty || 0;
+        <div className="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Instrument</th>
+                <th>Qty.</th>
+                <th>Avg. cost</th>
+                <th>LTP</th>
+                <th>Cur. val</th>
+                <th>P&L</th>
+                <th>Net chg.</th>
+                <th>Day chg.</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allHoldings.map((stock, index) => {
+                const safeAvg = stock.avg || stock.price || 0;
+                const safePrice = stock.price || 0;
+                const safeQty = stock.qty || 0;
 
-              const currValue = safePrice * safeQty;
-              const investValue = safeAvg * safeQty;
-              const dayPnl = currValue - investValue;
+                const currValue = safePrice * safeQty;
+                const investValue = safeAvg * safeQty;
+                const dayPnl = currValue - investValue;
 
-              const isProfit = dayPnl >= 0.0;
-              const profClass = isProfit ? "profit" : "loss";
-              const dayClass = stock.isLoss ? "loss" : "profit";
+                const isProfit = dayPnl >= 0.0;
+                const profClass = isProfit ? "profit" : "loss";
+                const dayClass = stock.isLoss ? "loss" : "profit";
 
-              return (
-                <tr key={index}>
-                  <td>{stock.name}</td>
-                  <td>{safeQty}</td>
-                  <td>{safeAvg.toFixed(2)}</td>
-                  <td>{safePrice.toFixed(2)}</td>
-                  <td>{currValue.toFixed(2)}</td>
-                  <td className={profClass}>{dayPnl.toFixed(2)}</td>
-                  <td className={profClass}>{stock.net || "0%"}</td>
-                  <td className={dayClass}>{stock.day || "0%"}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                return (
+                  <tr key={index}>
+                    <td>{stock.name}</td>
+                    <td>{safeQty}</td>
+                    <td>{safeAvg.toFixed(2)}</td>
+                    <td>{safePrice.toFixed(2)}</td>
+                    <td>{currValue.toFixed(2)}</td>
+                    <td className={profClass}>{dayPnl.toFixed(2)}</td>
+                    <td className={profClass}>{stock.net || "0%"}</td>
+                    <td className={dayClass}>{stock.day || "0%"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div className="row">
@@ -127,7 +129,9 @@ const Holdings = () => {
         </div>
       </div>
 
-      <VerticalChart data={data} />
+      <div className="chart-wrapper">
+        <VerticalChart data={data} />
+      </div>
     </>
   );
 };

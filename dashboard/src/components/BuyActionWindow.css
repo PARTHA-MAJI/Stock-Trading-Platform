@@ -232,3 +232,64 @@
 .btn-red:hover {
   background-color: #e64a19;
 }
+
+/* MOBILE RESPONSIVENESS FOR BUY/SELL WINDOW */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    height: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+
+  .regular-order {
+    padding: 16px;
+  }
+
+  /* Make the Qty and Price inputs easier to tap */
+
+  .inputs {
+    gap: 10px;
+  }
+
+  .inputs fieldset {
+    max-width: 50%;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .inputs fieldset input {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Stack the "Margin required" text and the buttons */
+
+  .buttons {
+    flex-direction: column;
+    gap: 15px;
+    top: 0;
+    padding: 15px 20px 25px 20px;
+  }
+
+  /* Make the Buy/Sell and Cancel buttons fill the space */
+
+  .buttons div {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .btn,
+  .btn-blue,
+  .btn-red,
+  .btn-grey {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+  }
+}
