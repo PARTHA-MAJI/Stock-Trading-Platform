@@ -8,6 +8,7 @@ const GeneralContext = React.createContext({
   closeBuyWindow: () => {},
   openSellWindow: (uid, price) => {},
   closeSellWindow: () => {},
+  tradeSignal: 0,
 });
 
 export const GeneralContextProvider = (props) => {
@@ -16,6 +17,9 @@ export const GeneralContextProvider = (props) => {
 
   const [selectedStockUID, setSelectedStockUID] = useState("");
   const [selectedStockPrice, setSelectedStockPrice] = useState(0);
+
+  const [tradeSignal, setTradeSignal] = useState(0);
+  const triggerTradeSignal = () => setTradeSignal((prev) => prev + 1);
 
   const handleOpenBuyWindow = (uid, price) => {
     setIsBuyWindowOpen(true);
@@ -50,6 +54,7 @@ export const GeneralContextProvider = (props) => {
         closeBuyWindow: handleCloseBuyWindow,
         openSellWindow: handleOpenSellWindow,
         closeSellWindow: handleCloseSellWindow,
+        tradeSignal,
       }}
     >
       {props.children}
@@ -58,6 +63,7 @@ export const GeneralContextProvider = (props) => {
           uid={selectedStockUID}
           currentPrice={selectedStockPrice}
           closeBuyWindow={handleCloseBuyWindow}
+          onTradeSuccess={triggerTradeSignal}
         />
       )}
       {isSellWindowOpen && (
@@ -65,6 +71,7 @@ export const GeneralContextProvider = (props) => {
           uid={selectedStockUID}
           currentPrice={selectedStockPrice}
           closeSellWindow={handleCloseSellWindow}
+          onTradeSuccess={triggerTradeSignal}
         />
       )}
     </GeneralContext.Provider>

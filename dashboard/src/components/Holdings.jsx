@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { VerticalChart } from "./VerticalChart";
+import GeneralContext from "./GeneralContext";
 
 const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
+
+  const { tradeSignal } = useContext(GeneralContext);
 
   useEffect(() => {
     const fetchHoldings = async () => {
@@ -19,7 +22,7 @@ const Holdings = () => {
     };
 
     fetchHoldings();
-  }, []);
+  }, [tradeSignal]);
 
   const totalInvestment = allHoldings.reduce((acc, stock) => {
     const avgCost = stock.avg || stock.price;

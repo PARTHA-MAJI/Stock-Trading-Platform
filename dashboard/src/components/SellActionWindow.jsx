@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./BuyActionWindow.css";
 
-const SellActionWindow = ({ uid, closeSellWindow }) => {
+const SellActionWindow = ({ uid, closeSellWindow, onTradeSuccess }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
   const [availableQty, setAvailableQty] = useState(0);
@@ -63,7 +63,7 @@ const SellActionWindow = ({ uid, closeSellWindow }) => {
       )
       .then(() => {
         closeSellWindow();
-        sessionStorage.setItem("isTradeRefresh", "true");
+        onTradeSuccess();
         navigate("/holdings");
       })
       .catch((error) => {

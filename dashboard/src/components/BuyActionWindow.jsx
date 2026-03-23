@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import "./BuyActionWindow.css";
 
-const BuyActionWindow = ({ uid, currentPrice, closeBuyWindow }) => {
+const BuyActionWindow = ({
+  uid,
+  currentPrice,
+  closeBuyWindow,
+  onTradeSuccess,
+}) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(currentPrice || 0.0);
 
@@ -24,7 +29,7 @@ const BuyActionWindow = ({ uid, currentPrice, closeBuyWindow }) => {
       )
       .then(() => {
         closeBuyWindow();
-        sessionStorage.setItem("isTradeRefresh", "true");
+        onTradeSuccess();
         navigate("/holdings");
       })
       .catch((error) => {
