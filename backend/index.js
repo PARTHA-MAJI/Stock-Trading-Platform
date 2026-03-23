@@ -47,7 +47,12 @@ app.post("/signup", async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "3d",
     });
-    res.cookie("token", token, { withCredentials: true, httpOnly: false });
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+    });
     res.status(201).json({ message: "Signed in successfully", success: true });
   } catch (error) {
     console.error(error);

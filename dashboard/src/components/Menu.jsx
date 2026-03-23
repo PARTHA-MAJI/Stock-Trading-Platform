@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Menu = () => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -10,10 +11,20 @@ const Menu = () => {
   const username = localStorage.getItem("username") || "User";
   const email = localStorage.getItem("email") || "user@example.com";
 
-  const handleLogout = () => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("email");
-    window.location.href = import.meta.env.VITE_FRONTEND_URL;
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/logout`,
+        {},
+        { withCredentials: true },
+      );
+
+      localStorage.removeItem("username");
+      localStorage.removeItem("email");
+      window.location.href = import.meta.env.VITE_FRONTEND_URL;
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   const toggleDropdown = () => {
