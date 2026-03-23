@@ -6,9 +6,19 @@ const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/allHoldings`).then((res) => {
-      setAllHoldings(res.data);
-    });
+    const fetchHoldings = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/allHoldings`,
+          { withCredentials: true },
+        );
+        setAllHoldings(res.data);
+      } catch (error) {
+        console.error("Failed to fetch holdings", error);
+      }
+    };
+
+    fetchHoldings();
   }, []);
 
   const totalInvestment = allHoldings.reduce((acc, stock) => {
