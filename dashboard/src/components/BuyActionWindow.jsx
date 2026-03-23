@@ -1,30 +1,31 @@
 import React, { useState } from "react";
 import axios from "axios";
-
-import { watchlist } from "../data/data";
+import { useNavigate } from "react-router-dom";
 
 import "./BuyActionWindow.css";
 
-const BuyActionWindow = ({ uid, closeBuyWindow }) => {
-  const selectedStock = watchlist.find((item) => item.name === uid);
-
-  const initialPrice = selectedStock ? selectedStock.price : 0.0;
-
+const BuyActionWindow = ({ uid, currentPrice, closeBuyWindow }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
-  const [stockPrice, setStockPrice] = useState(initialPrice);
+  const [stockPrice, setStockPrice] = useState(currentPrice || 0.0);
+
+  const navigate = useNavigate();
 
   const handleBuyClick = () => {
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/newOrder`, {
-        name: uid,
-        qty: stockQuantity,
-        price: stockPrice,
-        mode: "BUY",
-      })
+      .post(
+        `${import.meta.env.VITE_BACKEND_URL}/newOrder`,
+        {
+          name: uid,
+          qty: stockQuantity,
+          price: stockPrice,
+          mode: "BUY",
+        },
+        { withCredentials: true },
+      )
       .then(() => {
         closeBuyWindow();
         sessionStorage.setItem("isTradeRefresh", "true");
-        window.location.href = window.location.origin + "/holdings";
+        navigate("/holdings");
       })
       .catch((error) => {
         console.error("Order failed:", error);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 import "./BuyActionWindow.css";
 
 const SellActionWindow = ({ uid, closeSellWindow }) => {
@@ -9,14 +9,16 @@ const SellActionWindow = ({ uid, closeSellWindow }) => {
   const [availableQty, setAvailableQty] = useState(0);
   const [isHoldingLoaded, setIsHoldingLoaded] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const checkHoldings = async () => {
       try {
         const res = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/allHoldings`,
+          { withCredentials: true },
         );
         const holdings = res.data;
-
         const currentStock = holdings.find((item) => item.name === uid);
 
         if (currentStock) {
@@ -49,16 +51,23 @@ const SellActionWindow = ({ uid, closeSellWindow }) => {
     }
 
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/newOrder`, {
-        name: uid,
-        qty: stockQuantity,
-        price: stockPrice,
-        mode: "SELL",
-      })
+      .post(
+        `${import.meta.env.VITE_BACKEND_URL}/newOrder`,
+        {
+          name: uid,
+          qty: stockQuantity,
+          price: stockPrice,
+          mode: "SELL",
+        },
+        { withCredentials: true },
+      )
       .then(() => {
         closeSellWindow();
         sessionStorage.setItem("isTradeRefresh", "true");
-        window.location.href = window.location.origin + "/holdings";
+        navigate("/holdings");
+      })
+      .catch((error) => {
+        console.error("Sell order failed:", error);
       });
   };
 

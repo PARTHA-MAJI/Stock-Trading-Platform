@@ -81,11 +81,11 @@ const WatchListItem = ({ stock }) => {
   const { openBuyWindow, openSellWindow } = useContext(GeneralContext);
 
   const handleBuyClick = () => {
-    openBuyWindow(stock.name);
+    openBuyWindow(stock.name, stock.price);
   };
 
   const handleSellClick = () => {
-    openSellWindow(stock.name);
+    openSellWindow(stock.name, stock.price);
   };
 
   return (
