@@ -48,12 +48,12 @@ app.post("/signup", async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "3d",
     });
-    res.cookie("token", token, {
-      httpOnly: false,
-      secure: true,
-      sameSite: "none",
-    });
-    res.status(201).json({ message: "Signed in successfully", success: true });
+  //  res.cookie("token", token, {
+  //    httpOnly: false,
+  //    secure: true,
+  //    sameSite: "none",
+  //  });
+    res.status(201).json({ message: "Signed in successfully", success: true, token: token });
   } catch (error) {
     console.error(error);
   }
@@ -74,12 +74,12 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "3d",
     });
-    res.cookie("token", token, {
-      httpOnly: false,
-      secure: true,
-      sameSite: "none",
-    });
-    res.status(201).json({ message: "User logged in", success: true });
+  //  res.cookie("token", token, {
+  //    httpOnly: false,
+  //    secure: true,
+  //    sameSite: "none",
+  //  });
+    res.status(201).json({ message: "User logged in", success: true, token: token });
   } catch (error) {
     console.error(error);
   }
@@ -87,12 +87,12 @@ app.post("/login", async (req, res) => {
 
 // AUTH: LOGOUT
 app.post("/logout", (req, res) => {
-  res.cookie("token", "", {
-    httpOnly: false,
-    secure: true,
-    sameSite: "none",
-    expires: new Date(0),
-  });
+ // res.cookie("token", "", {
+ //   httpOnly: false,
+ //   secure: true,
+ //   sameSite: "none",
+ //   expires: new Date(0),
+ // });
 
   res
     .status(200)
@@ -101,7 +101,7 @@ app.post("/logout", (req, res) => {
 
 // VERIFY USER (For Dashboard Protection)
 app.post("/", (req, res) => {
-  const token = req.cookies.token;
+  const token = req.body.token;
   if (!token) {
     return res.json({ status: false });
   }

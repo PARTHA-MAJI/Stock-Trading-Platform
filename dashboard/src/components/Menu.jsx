@@ -15,15 +15,22 @@ const Menu = () => {
     try {
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/logout`,
-        {},
-        { withCredentials: true },
+       // {},
+       // { withCredentials: true },
       );
+
+      localStorage.removeItem("token");
 
       localStorage.removeItem("username");
       localStorage.removeItem("email");
-      window.location.href = import.meta.env.VITE_FRONTEND_URL;
+      window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
     } catch (error) {
       console.error("Logout failed", error);
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("email");
+      window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
     }
   };
 

@@ -38,15 +38,15 @@ const Login = () => {
         {
           ...inputValue,
         },
-        { withCredentials: true },
+      //  { withCredentials: true },
       );
 
-      const { success, message } = data;
+      const { success, message, token } = data;
 
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = import.meta.env.VITE_DASHBOARD_URL;
+          window.location.href = `${import.meta.env.VITE_DASHBOARD_URL}/?token=${token}`;
         }, 1000);
       } else {
         handleError(message);

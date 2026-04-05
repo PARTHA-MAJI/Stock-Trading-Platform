@@ -7,24 +7,39 @@ const Home = () => {
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get("token");
+
+    if (tokenFromUrl) {
+      localStorage.setItem("token", tokenFromUrl);
+      window.history.replaceState({}, document.title, "/");
+    }
+
     const verifyUser = async () => {
       try {
+        const savedToken = localStorage.getItem("token");
+
+        if (!savedToken) {
+          window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
+          return;
+        }
+
         const { data } = await axios.post(
           `${import.meta.env.VITE_BACKEND_URL}`,
-          {},
-          { withCredentials: true },
+          { token: savedToken } 
         );
 
         if (data.status) {
           localStorage.setItem("username", data.user);
           localStorage.setItem("email", data.email);
-
           setIsAuthorized(true);
         } else {
+          localStorage.removeItem("token");
           window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
         }
       } catch (error) {
         console.log(error);
+        localStorage.removeItem("token");
         window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
       }
     };
