@@ -27,8 +27,9 @@ app.use(
       process.env.FRONTEND_URL,
       process.env.DASHBOARD_URL,
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   }),
 );
 
@@ -48,7 +49,6 @@ app.post("/signup", async (req, res) => {
       expiresIn: "3d",
     });
     res.cookie("token", token, {
-      withCredentials: true,
       httpOnly: false,
       secure: true,
       sameSite: "none",
@@ -75,7 +75,6 @@ app.post("/login", async (req, res) => {
       expiresIn: "3d",
     });
     res.cookie("token", token, {
-      withCredentials: true,
       httpOnly: false,
       secure: true,
       sameSite: "none",
